@@ -12,13 +12,16 @@ import org.springframework.context.annotation.Bean;
 
 import com.oliveira.api.entities.Empresa;
 import com.oliveira.api.repositories.EmpresaRepository;
-import com.oliveira.api.utils.SenhaUtils;
+import com.oliveira.api.services.ExemploService;
 
 @SpringBootApplication
 public class MeuPrimeiroProjetoApplication {
 	
 	@Autowired
 	private EmpresaRepository empresaRepository;
+	
+	@Autowired
+	private ExemploService exemploService;
 	
 	@Value("${paginacao.qtde_por_pagina}")
 	private int qtdePorPagina;
@@ -33,6 +36,8 @@ public class MeuPrimeiroProjetoApplication {
 	public CommandLineRunner commandLineRunner() {
 		
 		return args -> {
+			
+			this.exemploService.testarServico();
 			
 			Empresa empresa = new Empresa();
 			empresa.setRazaoSocial("Oliveira TI");
@@ -55,23 +60,24 @@ public class MeuPrimeiroProjetoApplication {
 			this.empresaRepository.save(empresaCnpj);
 			
 			System.out.println("Empresa por CNPJ:" + empresaCnpj);			
-			
-			this.empresaRepository.deleteById(1L);
+
+			// TODO - Erro ao deletar por ID
+     		//this.empresaRepository.deleteById(1L);
 			empresas = empresaRepository.findAll();
 			System.out.println("Empresas: " + empresas.size());
 			
 			
 			System.out.println("# Quantidade por página = " + this.qtdePorPagina);
 			
-			String senha = "123456";
-			
-			String senhaEncoded = SenhaUtils.gerarBCrypt(senha);
-			System.out.println ("# Senha encoded: " + senhaEncoded);
-			
-			senhaEncoded = SenhaUtils.gerarBCrypt(senha);
-			System.out.println ("# Senha encoded novamente: " + senhaEncoded);
-			
-			System.out.println ("# Senha válida: " + SenhaUtils.senhaValida(senha, senhaEncoded));
+//			String senha = "123456";
+//			
+//			String senhaEncoded = SenhaUtils.gerarBCrypt(senha);
+//			System.out.println ("# Senha encoded: " + senhaEncoded);
+//			
+//			senhaEncoded = SenhaUtils.gerarBCrypt(senha);
+//			System.out.println ("# Senha encoded novamente: " + senhaEncoded);
+//			
+//			System.out.println ("# Senha válida: " + SenhaUtils.senhaValida(senha, senhaEncoded));
 			
 		};
 		
